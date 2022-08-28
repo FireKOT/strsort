@@ -14,7 +14,7 @@ char *ReadLine (FILE *input) {
     for(i = 0; (c = getc(input)) != '\n' && c != EOF; i++){
         if(i+1 == line_size){
             line_size *= 2;
-            str = (char*) realloc(str, line_size);
+            str = (char*) realloc(str, line_size * sizeof(char));
         }
 
         str[i] = (char) c;
@@ -35,18 +35,14 @@ char **ReadFile (FILE *input) {
     char *str = 0;
     int i = 0;
     for(i = 0; (str = ReadLine(input)) != NULL; i++){
-        //fprintf(stderr, "%d\n", i);
         if(i+1 == str_count){
             str_count *= 2;
-            lines = (char**) realloc(str, str_count);
+            lines = (char**) realloc(lines, str_count * sizeof(char*));
         }
 
         lines[i] = str;
     }
 
-
     lines[i] = NULL;
-    fprintf(stderr, "%d END\n", str_count);
-    for(int j =0; j < 10000000; ++j);
     return lines;
 }
